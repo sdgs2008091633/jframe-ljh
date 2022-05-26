@@ -147,6 +147,27 @@ function Base:where(column,operator,value)
 	return self
 end
 
+--将where命令封装为数组and 多个where命令
+
+function Base:where_and(t)
+	local t=t or {}
+	--value = transform_value(value)
+	if not self.query_sql then
+		self.query_sql=""
+		for k,v in pairs(t) do
+		if k==1 then self.query_sql = self.query_sql..(v.column or '').. ' ' .. (v.operator or '') .. ' ' .. (v.value or '') 
+		else
+		self.query_sql=self.query_sql..' and '..(v.column or '').. ' ' .. (v.operator or '') .. ' ' .. (v.value or '') 
+		end
+		end
+		self.query_sql = ' where '..self.query_sql
+		--self.query_sql = ' where '..column.. ' ' .. operator .. ' ' .. value
+	else
+		self.query_sql = "" 
+	end
+	return self
+end
+
 function Base:orderby(column,operator)
 	local operator = operator or 'asc'
 	if not self.query_sql then
