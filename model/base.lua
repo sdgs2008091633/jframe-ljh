@@ -130,8 +130,12 @@ function Base:get(id)
 	end
 end
 
-function Base:all()
+function Base:all(limit,sort)
+	local limit=limit or 0
+	
+	if limit>10000 then limit=10000 end
 	local where = self.query_sql or '';
+	if limit>0 then local sql = 'select '..self.fields..' from '..self.table..where..' limit '..limit end
 	local sql = 'select '..self.fields..' from '..self.table..where
 	local res = self:query(sql)
 	return res
