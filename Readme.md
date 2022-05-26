@@ -1,23 +1,23 @@
-ÓÃopenresty´î½¨µÄÒ»¸ö¼òÒ×web api¿ò¼Ü£¬·½±ãÖ®ºóÓÃµÄÊ±ºò¿ìËÙÉú³ÉÏîÄ¿½á¹¹
+ç”¨openrestyæ­å»ºçš„ä¸€ä¸ªç®€æ˜“web apiæ¡†æ¶ï¼Œæ–¹ä¾¿ä¹‹åç”¨çš„æ—¶å€™å¿«é€Ÿç”Ÿæˆé¡¹ç›®ç»“æ„
 
-### Ä¿Â¼½á¹¹
+### ç›®å½•ç»“æ„
 
-½á¹¹¹©°üº¬config¡¢controller¡¢libs¡¢modelËÄ¸öÄ¿Â¼
+ç»“æ„ä¾›åŒ…å«configã€controllerã€libsã€modelå››ä¸ªç›®å½•
 
 - config
 
-  ÅäÖÃÎÄ¼şÄ¿Â¼£¬ÓÃÓÚapp¡¢redis¡¢databaseÏà¹ØµÄÅäÖÃ
+  é…ç½®æ–‡ä»¶ç›®å½•ï¼Œç”¨äºappã€redisã€databaseç›¸å…³çš„é…ç½®
 
-  - appÓ¦ÓÃÏà¹Ø
+  - appåº”ç”¨ç›¸å…³
 
   ```lua
   return {
-  	default_controller = 'home', -- Ä¬ÈÏ¿ØÖÆÆ÷
-  	default_action	   = 'index', -- Ä¬ÈÏ·½·¨
+  	default_controller = 'home', -- é»˜è®¤æ§åˆ¶å™¨
+  	default_action	   = 'index', -- é»˜è®¤æ–¹æ³•
   }
   ```
 
-  - Êı¾İ¿âÏà¹Ø
+  - æ•°æ®åº“ç›¸å…³
 
   ```lua
   local mysql_config = {
@@ -37,7 +37,7 @@
   }
   ```
 
-  - redisÅäÖÃ
+  - redisé…ç½®
 
   ```lua
   return {
@@ -51,13 +51,13 @@
   }
   ```
 
-- libsÄ¿Â¼
+- libsç›®å½•
 
-  libsÄ¿Â¼ÏÂÃæµÄ¹«¹²µÄÄ£¿é¿â£¬°üÀ¨redis¡¢db¡¢request¡¢responseµÈ
+  libsç›®å½•ä¸‹é¢çš„å…¬å…±çš„æ¨¡å—åº“ï¼ŒåŒ…æ‹¬redisã€dbã€requestã€responseç­‰
 
-- controllerÄ¿Â¼
+- controllerç›®å½•
 
-  ÕâÊÇ¿ØÖÆÆ÷Ä¿Â¼£¬ÀïÃæÓĞÒ»¸ö·â×°ÁËÒ»¸ö»ùÀàBase.lua,ÒµÎñ¿ØÖÆÆ÷¼Ì³ĞÕâ¸ö¼´¿É£¬»ù±¾µÄÒµÎñ¿ØÖÆÆ÷´úÂëÈçÏÂ
+  è¿™æ˜¯æ§åˆ¶å™¨ç›®å½•ï¼Œé‡Œé¢æœ‰ä¸€ä¸ªå°è£…äº†ä¸€ä¸ªåŸºç±»Base.lua,ä¸šåŠ¡æ§åˆ¶å™¨ç»§æ‰¿è¿™ä¸ªå³å¯ï¼ŒåŸºæœ¬çš„ä¸šåŠ¡æ§åˆ¶å™¨ä»£ç å¦‚ä¸‹
 
   ```lua
   -- home.lua
@@ -70,64 +70,86 @@
   end
   ```
 
-  ÉÏÃæµÄ´úÂë¾ÍÊµÏÖÁËÒ»¸ö¿ØÖÆÆ÷£¬·ÃÎÊÂ·¾¶hostname://home/index¼´¿ÉÇëÇóindex·½·¨,ÇëÇóµÄurl¹æÔòÊÇhostname+controllerÎÄ¼ş¼ĞÏÂµÄÎÄ¼şÃû+/+ÎÄ¼şÖĞµÄ·½·¨Ãû**(×¢ÒâÒ»¶¨Òª¼Ì³ĞBaseÄ£¿é)**
+  ä¸Šé¢çš„ä»£ç å°±å®ç°äº†ä¸€ä¸ªæ§åˆ¶å™¨ï¼Œè®¿é—®è·¯å¾„hostname://home/indexå³å¯è¯·æ±‚indexæ–¹æ³•,è¯·æ±‚çš„urlè§„åˆ™æ˜¯hostname+controlleræ–‡ä»¶å¤¹ä¸‹çš„æ–‡ä»¶å+/+æ–‡ä»¶ä¸­çš„æ–¹æ³•å**(æ³¨æ„ä¸€å®šè¦ç»§æ‰¿Baseæ¨¡å—)**
 
-  controllerÀïÃæÌá¹©ÁË¼¸¸ö»ù±¾ÊôĞÔ
+  controlleré‡Œé¢æä¾›äº†å‡ ä¸ªåŸºæœ¬å±æ€§
 
-  - self.request»ñÈ¡ÇëÇóÏà¹Ø²ÎÊı£¬Èçself.request.query.xx»ñÈ¡get²ÎÊı£¬self.request.body.xx»ñÈ¡post²ÎÊı£¬self.request.headers.xx»ñÈ¡header²ÎÊıµÈ
+  - self.requestè·å–è¯·æ±‚ç›¸å…³å‚æ•°ï¼Œå¦‚self.request.query.xxè·å–getå‚æ•°ï¼Œself.request.body.xxè·å–postå‚æ•°ï¼Œself.request.headers.xxè·å–headerå‚æ•°ç­‰
 
-  - self.responseÊä³öÏìÓ¦½á¹û£¬Ö÷ÒªÓĞself.response:json()·µ»Ødata½á¹û£¬ÒÔ¼°self.response:redirect()Ìø×ª,self.response.get_body()»ñÈ¡ÏìÓ¦½á¹ûµÈ
+  - self.responseè¾“å‡ºå“åº”ç»“æœï¼Œä¸»è¦æœ‰self.response:json()è¿”å›dataç»“æœï¼Œä»¥åŠself.response:redirect()è·³è½¬,self.response.get_body()è·å–å“åº”ç»“æœç­‰
 
-    ÎªÁË·½±ã¿ª·¢£¬ÔÚBaseÀïÃæ·â×°ÁËresponse£¬Ìá¹©ÁËself:json(),self:error(code,message)Á½¸ö¿ì½İ·½·¨
-
-    ```lua
-    self:json({data=self.redis:get("test")}) --·µ»Ø½á¹ûÉèÖÃdata
-    self:error(2,"»ñÈ¡Êı¾İÊ§°Ü") --·µ»Ø½á¹ûÉèÖÃ´íÎóÂë£¬´íÎóÏûÏ¢
-    ```
-
-    ·µ»ØµÄ½á¹¹°üº¬data,code,message×Ö¶Î
+    ä¸ºäº†æ–¹ä¾¿å¼€å‘ï¼Œåœ¨Baseé‡Œé¢å°è£…äº†responseï¼Œæä¾›äº†self:json(),self:error(code,message)ä¸¤ä¸ªå¿«æ·æ–¹æ³•
 
     ```lua
-    {"data":{"data":["BBBBB","B","AAAAA","A","BBBBB","B","AAAAA","A"]},"message":"","code":"»ñÈ¡³É¹¦"}
+    self:json({data=self.redis:get("test")}) --è¿”å›ç»“æœè®¾ç½®data
+    self:error(2,"è·å–æ•°æ®å¤±è´¥") --è¿”å›ç»“æœè®¾ç½®é”™è¯¯ç ï¼Œé”™è¯¯æ¶ˆæ¯
     ```
 
-  - self.redis¿ÉÒÔÊ¹ÓÃredis£¬°üº¬self.redis:set,self.redis:get,self.redis:hset,self.redis:hgetµÈµÈ£¬¾ßÌå¿ÉÒÔÊ¹ÓÃµÄº¯Êı¿ÉÒÔ²Î¿¼**libs/redis.lua**ÎÄ¼şµÄ15µ½72ĞĞ
+    è¿”å›çš„ç»“æ„åŒ…å«data,code,messageå­—æ®µ
 
-  - self.controller»ñÈ¡µ±Ç°¿ØÖÆÆ÷Ãû³Æ
+    ```lua
+    {"data":{"data":["BBBBB","B","AAAAA","A","BBBBB","B","AAAAA","A"]},"message":"","code":"è·å–æˆåŠŸ"}
+    ```
 
-  - self.action»ñÈ¡µ±Ç°action²Ù×÷Ãû³Æ
+  - self.rediså¯ä»¥ä½¿ç”¨redisï¼ŒåŒ…å«self.redis:set,self.redis:get,self.redis:hset,self.redis:hgetç­‰ç­‰ï¼Œå…·ä½“å¯ä»¥ä½¿ç”¨çš„å‡½æ•°å¯ä»¥å‚è€ƒ**libs/redis.lua**æ–‡ä»¶çš„15åˆ°72è¡Œ
 
-- modelÄ¿Â¼
+  - self.controllerè·å–å½“å‰æ§åˆ¶å™¨åç§°
 
-  Ä£ĞÍÏà¹Ø£¬ÎªÁË±ãÓÚ²Ù×÷£¬Ò²·â×°ÁËÒ»¸öBase»ùÀà£¬ÒµÎñmodelÖ»ĞèÒª¼Ì³Ğ¼´¿É
+  - self.actionè·å–å½“å‰actionæ“ä½œåç§°
+
+- modelç›®å½•
+
+  æ¨¡å‹ç›¸å…³ï¼Œä¸ºäº†ä¾¿äºæ“ä½œï¼Œä¹Ÿå°è£…äº†ä¸€ä¸ªBaseåŸºç±»ï¼Œä¸šåŠ¡modelåªéœ€è¦ç»§æ‰¿å³å¯
 
   ```lua
   -- good.lua
   local Base = require "model.base"
   
-  local Good = Base:extend() --¼Ì³ĞBase
+  local Good = Base:extend() --ç»§æ‰¿Base
   
-  return Good("test",'lgid') --µÚÒ»¸ö²ÎÊı±íÃû³Æ,µÚ¶ş¸ö²ÎÊıÊÇ±í¶ÔÓ¦µÄÖ÷¼ü(Ä¬ÈÏÎªid)
+  return Good("test",'lgid') --ç¬¬ä¸€ä¸ªå‚æ•°è¡¨åç§°,ç¬¬äºŒä¸ªå‚æ•°æ˜¯è¡¨å¯¹åº”çš„ä¸»é”®(é»˜è®¤ä¸ºid)
   ```
+ï¼ˆ
+ä¿®æ”¹modelçš„ç»§æ‰¿æ–¹å¼ä¸ºä¸€ä¸ªæ•°æ®åº“ä¸€ä¸ªæ–‡ä»¶ï¼Œé€šè¿‡tableå°è£…æˆä¸€ä¸ªæ¨¡å—
+local Base = (require "model.base"):extend()
+local iotservice={}
+--è®¾ç½®åŒºåŸŸ*****************************************
+iotservice.admin_user = Base("admin_user")
+iotservice.all_user = Base("all_user")
+iotservice.device = Base("device")
+iotservice.device_type = Base("device_type")
+iotservice.device_val = Base("device_val")
+iotservice.device_data = Base("device_data")
+---------------------------------------------------
+return iotservice
 
-  Base.lua·â×°µÄ»ùÀàÌá¹©ÁËµ¥±íÔöÉ¾¸Ä²éµÄ·½·¨
+ä½¿ç”¨æ–¹æ³•
+--i_code é»˜è®¤ä¸modelé‡å
+local i_code="device_type"
+local Base = require("controller.base")
+local iotservice = require "model.iotservice"
+local l_model=iotservice[i_code]
+local Home = Base:extend()
 
-  - create(data)Ìí¼Ó¼ÇÂ¼
-  - delete(id)É¾³ı¼ÇÂ¼
-  - update(data,id)ĞŞ¸Ä¼ÇÂ¼
-  - get()¡¢all()¹ıÂË¼ÇÂ¼
-  - where()¹ıÂËÌõ¼ş·½·¨
-  - columns()ÉèÖÃ²éÕÒÄÄĞ©ÁĞµÄ·½·¨
-  - orderby()ÉèÖÃÅÅĞòµÄ·½·¨
-  - count()²éÕÒÊı¾İ×ÜÌõÊıµÄ·½·¨
+ï¼‰
+  Base.luaå°è£…çš„åŸºç±»æä¾›äº†å•è¡¨å¢åˆ æ”¹æŸ¥çš„æ–¹æ³•
 
-  Í¬Ê±Base.luaÒ²Ìá¹©ÁËÒ»¸ö·½·¨ÓÃÓÚ×Ô¶¨ÒåÖ´ĞĞsqlµÄ·½·¨£¬·½±ã¸´ÔÓ²éÑ¯
+  - create(data)æ·»åŠ è®°å½•
+  - delete(id)åˆ é™¤è®°å½•
+  - update(data,id)ä¿®æ”¹è®°å½•
+  - get()ã€all()è¿‡æ»¤è®°å½•
+  - where()è¿‡æ»¤æ¡ä»¶æ–¹æ³•
+  - columns()è®¾ç½®æŸ¥æ‰¾å“ªäº›åˆ—çš„æ–¹æ³•
+  - orderby()è®¾ç½®æ’åºçš„æ–¹æ³•
+  - count()æŸ¥æ‰¾æ•°æ®æ€»æ¡æ•°çš„æ–¹æ³•
+
+  åŒæ—¶Base.luaä¹Ÿæä¾›äº†ä¸€ä¸ªæ–¹æ³•ç”¨äºè‡ªå®šä¹‰æ‰§è¡Œsqlçš„æ–¹æ³•ï¼Œæ–¹ä¾¿å¤æ‚æŸ¥è¯¢
 
   - query()
 
-### ¿ìËÙ¿ªÊ¼
+### å¿«é€Ÿå¼€å§‹
 
-- nginx.confÌí¼ÓÀàËÆÈçÏÂ´úÂë
+- nginx.confæ·»åŠ ç±»ä¼¼å¦‚ä¸‹ä»£ç 
 
   ```shell
   worker_processes  1;
@@ -143,8 +165,8 @@
           listen 8080;
           
           location = /favicon.ico {
-            log_not_found off;#¹Ø±ÕÈÕÖ¾
-            access_log off;#²»¼ÇÂ¼ÔÚaccess.log
+            log_not_found off;#å…³é—­æ—¥å¿—
+            access_log off;#ä¸è®°å½•åœ¨access.log
           }
   
           location / {
@@ -155,9 +177,9 @@
   }
   ```
 
-- Ìí¼Ó¿ØÖÆÆ÷
+- æ·»åŠ æ§åˆ¶å™¨
 
-  ÔÚcontrollerÄ¿Â¼Ìí¼Óuser.lua
+  åœ¨controllerç›®å½•æ·»åŠ user.lua
 
   ```lua
   local Base = require("controller.base")
@@ -174,7 +196,7 @@
   return User
   ```
 
-- Ìí¼Ómodel
+- æ·»åŠ model
 
   ```lua
   local Base = require "model.base"
@@ -184,7 +206,7 @@
   return User("sls_p_user",'suid')
   ```
 
-- ¿ØÖÆÆ÷Ê¹ÓÃmodel
+- æ§åˆ¶å™¨ä½¿ç”¨model
 
   ```lua
   local userModel = require('model.user')
@@ -198,9 +220,9 @@
   end
   ```
 
-### model·â×°µÄ¿ì½İ·½·¨ËµÃ÷
+### modelå°è£…çš„å¿«æ·æ–¹æ³•è¯´æ˜
 
-- Ìí¼Ó
+- æ·»åŠ 
 
   ```lua
   local data = {
@@ -210,105 +232,111 @@
   local insertId = userModel:create(data)
   ```
 
-- É¾³ı
+- åˆ é™¤
 
-  - ¸ù¾İÖ÷¼üÉ¾³ı
+  - æ ¹æ®ä¸»é”®åˆ é™¤
 
     ```lua
     local affect_rows = userModel:delete(2)
     ```
 
-  - ¸ù¾İwhereÌõ¼şÉ¾³ı
+  - æ ¹æ®whereæ¡ä»¶åˆ é™¤
 
     ```lua
     local affect_rows = userModel:where("name","=",3):delete()
     ```
 
-- ĞŞ¸Ä
+- ä¿®æ”¹
 
-  - ¸ù¾İÖ÷¼üĞŞ¸Ä
+  - æ ¹æ®ä¸»é”®ä¿®æ”¹
 
     ```lua
     local affect_rows = userModel:update(data,2)
     
     local data = {
-        suid = "1", -- dataÀïÃæ´æÔÚÖ÷¼ü£¬¸ù¾İÖ÷¼ü¸üĞÂ
-        name = "hello ÎÒµÄ²âÊÔ",
+        suid = "1", -- dataé‡Œé¢å­˜åœ¨ä¸»é”®ï¼Œæ ¹æ®ä¸»é”®æ›´æ–°
+        name = "hello æˆ‘çš„æµ‹è¯•",
     }
     local affect_rows = userModel:update(data)
     ```
 
-  - ¸ù¾İwhereÌõ¼şĞŞ¸Ä
+  - æ ¹æ®whereæ¡ä»¶ä¿®æ”¹
 
     ```lua
     local affect_rows = userModel:where("name","=",3):update(data)
     ```
 
-- ²éÕÒ
+- æŸ¥æ‰¾
 
-  - ²éÕÒÒ»Ìõ¼ÇÂ¼
-
-    ```lua
-    local info = userModel:where("name","=",3):get() --¸ù¾İwhereÌõ¼ş²éÕÒ
-    local info = userModel:get(1) --¸ù¾İÖ÷¼ü²éÕÒ
-    local info = userModel:columns('suid,name'):get(1) --²éÕÒÖ¸¶¨×Ö¶Î,²éÕÒ×Ö¶ÎÊÇ×Ö·û´®
-    local info = userModel:columns({'suid','name'}):get(1) --²éÕÒÖ¸¶¨×Ö¶Î,²éÕÒ×Ö¶ÎÊÇtable
-    ```
-
-  - ²éÕÒ¶àÌõ¼ÇÂ¼
+  - æŸ¥æ‰¾ä¸€æ¡è®°å½•
 
     ```lua
-    local list = userModel:where("name","=",3):all() --¸ù¾İwhereÌõ¼ş²éÕÒ
-    local list = userModel:columns('suid,name'):all() --²éÕÒÖ¸¶¨×Ö¶Î,²éÕÒ×Ö¶ÎÊÇ×Ö·û´®
-    local list = userModel:columns({'suid','name'}):all() --²éÕÒÖ¸¶¨×Ö¶Î,²éÕÒ×Ö¶ÎÊÇtable
+    local info = userModel:where("name","=",3):get() --æ ¹æ®whereæ¡ä»¶æŸ¥æ‰¾
+    local info = userModel:get(1) --æ ¹æ®ä¸»é”®æŸ¥æ‰¾
+    local info = userModel:columns('suid,name'):get(1) --æŸ¥æ‰¾æŒ‡å®šå­—æ®µ,æŸ¥æ‰¾å­—æ®µæ˜¯å­—ç¬¦ä¸²
+    local info = userModel:columns({'suid','name'}):get(1) --æŸ¥æ‰¾æŒ‡å®šå­—æ®µ,æŸ¥æ‰¾å­—æ®µæ˜¯table
     ```
 
-- ÆäËü·½·¨ËµÃ÷
+  - æŸ¥æ‰¾å¤šæ¡è®°å½•
 
-  - ²éÕÒÊı¾İÌõÊı
+    ```lua
+    local list = userModel:where("name","=",3):all() --æ ¹æ®whereæ¡ä»¶æŸ¥æ‰¾
+    local list = userModel:columns('suid,name'):all() --æŸ¥æ‰¾æŒ‡å®šå­—æ®µ,æŸ¥æ‰¾å­—æ®µæ˜¯å­—ç¬¦ä¸²
+    local list = userModel:columns({'suid','name'}):all() --æŸ¥æ‰¾æŒ‡å®šå­—æ®µ,æŸ¥æ‰¾å­—æ®µæ˜¯table
+    ```
+
+- å…¶å®ƒæ–¹æ³•è¯´æ˜
+
+  - æŸ¥æ‰¾æ•°æ®æ¡æ•°
 
     ```lua
     local count = userModel:where("name","=","json"):count()
     ```
 
-  - ÅÅĞò
+  - æ’åº
 
     ```lua
     local list = userModel:where("name","=",3):orderby("id"):all()
     
-    local list = userModel:where("name","=",3):orderby("name","asc"):orderby("id","desc"):all() --¶à¸öÅÅĞò
+    local list = userModel:where("name","=",3):orderby("name","asc"):orderby("id","desc"):all() --å¤šä¸ªæ’åº
     ```
 
-  - ²éÕÒÖ¸¶¨×Ö¶Î(²»Ê¹ÓÃÖ¸¶¨×Ö¶Î£¬ÔòÊÇ²éÕÒËùÓĞ×Ö¶Î)
+  - æŸ¥æ‰¾æŒ‡å®šå­—æ®µ(ä¸ä½¿ç”¨æŒ‡å®šå­—æ®µï¼Œåˆ™æ˜¯æŸ¥æ‰¾æ‰€æœ‰å­—æ®µ)
 
     ```lua
-    local list = userModel:columns('suid,name'):all() --columnsÀïÃæ¿ÉÒÔÊÇ×Ö·û´®£¬Ò²¿ÉÒÔÊÇtable½á¹¹
+    local list = userModel:columns('suid,name'):all() --columnsé‡Œé¢å¯ä»¥æ˜¯å­—ç¬¦ä¸²ï¼Œä¹Ÿå¯ä»¥æ˜¯tableç»“æ„
     ```
 
-  - ¸ù¾İwhereÌõ¼ş²éÕÒ
+  - æ ¹æ®whereæ¡ä»¶æŸ¥æ‰¾
 
     ```lua
     local list = userModel:columns('suid,rname'):where("suid","<","30"):orderby("suid"):all()
     
-    local list = userModel:columns('suid,rname'):where("suid","<","30"):where("rname","like","test%"):orderby("suid"):all() -- ¿ÉÒÔ¶à¸öwhere
+    local list = userModel:columns('suid,rname'):where("suid","<","30"):where("rname","like","test%"):orderby("suid"):all() -- å¯ä»¥å¤šä¸ªwhere
+    
+    -å¤šä¸ªwhereç»„åˆåœ¨ä¸€ä¸ªtable
+    local t={{column="id",operator="=",value="1"},{column="id",operator="=",value="1"},{column="id",operator="=",value="1"}}
+    if t.where then list = l_model:columns(t.columns or 'id'):where_and(t.where or {{column="id",operator="=",value=""}}):orderby((t.orderby or 'id'),(t.sort or "desc")):all(t.limit or 0) end -- å¯ä»¥å¤šä¸ªwhere
+
+
     ```
 
-  - ×Ô¶¨ÒåÖ´ĞĞµÄsql
+  - è‡ªå®šä¹‰æ‰§è¡Œçš„sql
 
     ```lua
-    -- ¹ØÁª²éÑ¯
+    -- å…³è”æŸ¥è¯¢
     local sql = "select su.*,c.logincount from sls_p_user su join c_user c on su.suid=c.suid where su.suid=2"
     local result = userModel:query(sql)
     
-    -- ¶¯Ì¬²ÎÊı²éÑ¯
+    -- åŠ¨æ€å‚æ•°æŸ¥è¯¢
     local sql = "select * from sls_p_user where suid=? and username=?"
     local result = userModel:query(sql,{1,"json"})
     ```
 
 
-### ÃüÁîĞĞ
+### å‘½ä»¤è¡Œ
 
-ÎªÁË·½±ã¿ìËÙÉú³É¿ØÖÆÆ÷controller,ÒÔ¼°Ä£ĞÍmodel, ÌØ¿ª·¢ÁËÃüÁîĞĞ,ÃüÁîĞĞÊ¹ÓÃ**luajit**±àĞ´£¬ĞèÒª½«luajit·ÅÈë»·¾³±äÁ¿
+ä¸ºäº†æ–¹ä¾¿å¿«é€Ÿç”Ÿæˆæ§åˆ¶å™¨controller,ä»¥åŠæ¨¡å‹model, ç‰¹å¼€å‘äº†å‘½ä»¤è¡Œ,å‘½ä»¤è¡Œä½¿ç”¨**luajit**ç¼–å†™ï¼Œéœ€è¦å°†luajitæ”¾å…¥ç¯å¢ƒå˜é‡
 
 ```lua
  ./jframe -h
@@ -321,23 +349,23 @@ Commands:
  help                       Show help tips
 ```
 
-**×¢ÒâwindowsÏÂÃüÁîÊÇ**
+**æ³¨æ„windowsä¸‹å‘½ä»¤æ˜¯**
 
 ```lua
 luajit ./jframe -h
 ```
 
-- Éú³É¿ØÖÆÆ÷£¬×Ô¶¯Éú³Éµ½controllerÄ¿Â¼ÏÂ
+- ç”Ÿæˆæ§åˆ¶å™¨ï¼Œè‡ªåŠ¨ç”Ÿæˆåˆ°controllerç›®å½•ä¸‹
 
   ```lua
   jframe controller controllerName
   ```
 
-- Éú³Émodel£¬×Ô¶¯Éú³Éµ½modelÄ¿Â¼ÏÂ
+- ç”Ÿæˆmodelï¼Œè‡ªåŠ¨ç”Ÿæˆåˆ°modelç›®å½•ä¸‹
 
   ```lua
-  jframe model modelName --²»Ö¸¶¨±íÃû³Æ£¬Éú³ÉµÄmodel±íÃû³ÆÄ¬ÈÏÊÇ¸ø¶¨µÄmodelnameµÄĞ¡Ğ´¸ñÊ½
-  jframe model modelName table--Ö¸¶¨modelÃû³ÆÒÔ¼°±íÃû³Æ
+  jframe model modelName --ä¸æŒ‡å®šè¡¨åç§°ï¼Œç”Ÿæˆçš„modelè¡¨åç§°é»˜è®¤æ˜¯ç»™å®šçš„modelnameçš„å°å†™æ ¼å¼
+  jframe model modelName table--æŒ‡å®šmodelåç§°ä»¥åŠè¡¨åç§°
   
   ```
 
