@@ -1,4 +1,4 @@
-用openresty搭建的一个简易web api框架，方便之后用的时候快速生成项目结构
+用openresty与nodemcu通过lua一站式开发搭建的一个一体的物联网框架
 
 ### 目录结构
 
