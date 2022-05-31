@@ -130,13 +130,17 @@ function Base:get(id)
 	end
 end
 
-function Base:all(limit,sort)
-	local limit=limit or 0
-	
-	if limit>10000 then limit=10000 end
-	local where = self.query_sql or '';
-	if limit>0 then local sql = 'select '..self.fields..' from '..self.table..where..' limit '..limit end
-	local sql = 'select '..self.fields..' from '..self.table..where
+function Base:all(limit)
+	local sql=""
+	local limit=tonumber(limit) or 0
+	local where = self.query_sql or ''
+	print("where:",where)
+	if limit>0 then  
+	sql = 'select '..self.fields..' from '..self.table..where..' limit '..limit 
+	else
+	  sql = 'select '..self.fields..' from '..self.table..where
+	  print("wheredid:",where)
+	end
 	local res = self:query(sql)
 	return res
 end
@@ -144,36 +148,36 @@ end
 function Base:where(column,operator,value)
 	value = transform_value(value)
 	if not self.query_sql then
-		self.query_sql = ' where '..column.. ' ' .. operator .. ' ' .. value
+		self.query_sql = ' where '..column.. ' ' .. (operator or "=") .. ' ' .. value
 	else
-		self.query_sql = self.query_sql..' and '..column..' '..operator..' '..value
+		self.query_sql = self.query_sql..' and '..column..' '..(operator or "=")..' '..value
 	end
 	return self
 end
 
---将where命令封装为数组and 多个where命令
-
+--t二维数组[{"column":"","operator":"","value":""},{"column":"","operator":"","value":""}]
 function Base:where_and(t)
-	local t=t or {}
+ 	local t=t or {}
 	--value = transform_value(value)
 	if not self.query_sql then
 		self.query_sql=""
 		for k,v in pairs(t) do
-		if k==1 then self.query_sql = self.query_sql..(v.column or '').. ' ' .. (v.operator or '') .. ' ' .. (v.value or '') 
-		else
-		self.query_sql=self.query_sql..' and '..(v.column or '').. ' ' .. (v.operator or '') .. ' ' .. (v.value or '') 
-		end
+			if k==1 then self.query_sql = self.query_sql..(v[1] or '').. ' ' .. (v[2] or '') .. ' ' .. (v[3] or '') 
+			else
+			self.query_sql=self.query_sql..' and '..(v[1] or '').. ' ' .. (v[2] or '') .. ' ' .. (v[3] or '')
+			end
+ 
 		end
 		self.query_sql = ' where '..self.query_sql
 		--self.query_sql = ' where '..column.. ' ' .. operator .. ' ' .. value
 	else
-		self.query_sql = "" 
+		--self.query_sql =  self.query_sql
 	end
 	return self
 end
 
 function Base:orderby(column,operator)
-	local operator = operator or 'asc'
+	local operator = operator or 'desc'
 	if not self.query_sql then
 		self.query_sql = ' order by '.. self.table .. '.' .. column .. ' ' ..operator
 	else
