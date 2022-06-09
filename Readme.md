@@ -150,8 +150,8 @@ local Home = Base:extend()
 ### 快速开始
 
 - nginx.conf添加类似如下代码
-
-  ```shell
+ 
+  ``` shell
  worker_processes  1;
 #error_log logs/error.log;
 error_log  logs/error.log info;
@@ -211,7 +211,7 @@ http {
     }
 	
 }
-
+ ```
 - 添加控制器
 
   在controller目录添加user.lua
