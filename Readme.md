@@ -109,6 +109,7 @@
   
   return Good("test",'lgid') --第一个参数表名称,第二个参数是表对应的主键(默认为id)
   ```
+   ```
 （
 修改model的继承方式为一个数据库一个文件，通过table封装成一个模块
 local Base = (require "model.base"):extend()
@@ -132,6 +133,7 @@ local l_model=iotservice[i_code]
 local Home = Base:extend()
 
 ）
+ ```
   Base.lua封装的基类提供了单表增删改查的方法
 
   - create(data)添加记录
@@ -151,7 +153,8 @@ local Home = Base:extend()
 
 - nginx.conf添加类似如下代码
  
-  ``` shell
+  ```
+ shell
  worker_processes  1;
 #error_log logs/error.log;
 error_log  logs/error.log info;
