@@ -88,6 +88,7 @@ function Base:soft_delete(id)
 end
 
 function Base:update(data,id)
+	if not (string.find(self.query_sql,"where") and string.find(self.query_sql,"=")) and  then print("update need where params") end
 	local id = id or nil
 	-- 拼接需要update的字段
 	local str = nil
@@ -123,6 +124,7 @@ function Base:get(id)
 	end
 	local sql = 'select '..self.fields..' from '..self.table..where..' limit 1'
 	local res = self:query(sql)
+	self.query_sql=""
 	if table.getn(res) > 0 then
 		return res[1]
 	else
@@ -134,46 +136,41 @@ function Base:all(limit)
 	local sql=""
 	local limit=tonumber(limit) or 0
 	local where = self.query_sql or ''
-	print("where:",where)
 	if limit>0 then  
 	sql = 'select '..self.fields..' from '..self.table..where..' limit '..limit 
 	else
 	  sql = 'select '..self.fields..' from '..self.table..where
-	  print("wheredid:",where)
 	end
 	local res = self:query(sql)
+	--修改重置sql
+	self.query_sql=""
 	return res
 end
 
-function Base:where(column,operator,value)
-	value = transform_value(value)
-	if not self.query_sql then
-		self.query_sql = ' where '..column.. ' ' .. (operator or "=") .. ' ' .. value
-	else
-		self.query_sql = self.query_sql..' and '..column..' '..(operator or "=")..' '..value
-	end
-	return self
-end
+-- function Base:where(column,operator,value)
+	-- value = transform_value(value)
+	-- if not self.query_sql then
+		-- self.query_sql = ' where '..column.. ' ' .. (operator or "=") .. ' ' .. value
+	-- else
+		-- --self.query_sql = self.query_sql..' and '..column..' '..(operator or "=")..' '..value
+	-- end
+	-- return self
+-- end
 
 --t二维数组[{"column":"","operator":"","value":""},{"column":"","operator":"","value":""}]
 function Base:where_and(t)
- 	local t=t or {}
+ 	local t=t or {{}}
 	--value = transform_value(value)
-	if not self.query_sql then
 		self.query_sql=""
 		for k,v in pairs(t) do
 			if k==1 then self.query_sql = self.query_sql..(v[1] or '').. ' ' .. (v[2] or '') .. ' ' .. (v[3] or '') 
 			else
 			self.query_sql=self.query_sql..' and '..(v[1] or '').. ' ' .. (v[2] or '') .. ' ' .. (v[3] or '')
 			end
- 
 		end
 		self.query_sql = ' where '..self.query_sql
 		--self.query_sql = ' where '..column.. ' ' .. operator .. ' ' .. value
-	else
-		--self.query_sql =  self.query_sql
-	end
-	return self
+		return self
 end
 
 function Base:orderby(column,operator)
@@ -181,11 +178,11 @@ function Base:orderby(column,operator)
 	if not self.query_sql then
 		self.query_sql = ' order by '.. self.table .. '.' .. column .. ' ' ..operator
 	else
-		if self.has_order_by then
-			self.query_sql = self.query_sql .. ',' .. column.. ' ' ..operator
-		else
+		-- if self.has_order_by then
+			-- self.query_sql = self.query_sql .. ',' .. column.. ' ' ..operator
+		-- else
 			self.query_sql = self.query_sql .. ' order by ' .. column.. ' ' ..operator
-		end
+		-- end
 	end
 	self.has_order_by = true
 	return self
@@ -196,12 +193,16 @@ function Base:count()
 	if not sql then
 		sql = 'select count(*) from '..self.table
 	else
-		sql = 'select count(*) from '..self.table..' '..self.query_sql
+		 sql = 'select count(*) from '..self.table..' '..self.query_sql
 	end
 	local res = self:query(sql)
+ 
+	self.query_sql=""
 	if table.getn(res) > 0 then
+	 
 		return tonumber(res[1]['count(*)'])
 	else
+	 
 		return 0
 	end
 end
