@@ -109,8 +109,8 @@
   
   return Good("test",'lgid') --第一个参数表名称,第二个参数是表对应的主键(默认为id)
   ```
-   ```lua
-（
+  
+  ```lua
 修改model的继承方式为一个数据库一个文件，通过table封装成一个模块
 local Base = (require "model.base"):extend()
 local iotservice={}
@@ -132,7 +132,7 @@ local iotservice = require "model.iotservice"
 local l_model=iotservice[i_code]
 local Home = Base:extend()
 
-）
+
  ```
   Base.lua封装的基类提供了单表增删改查的方法
 
