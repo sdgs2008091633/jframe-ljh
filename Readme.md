@@ -138,7 +138,7 @@ local Home = Base:extend()
   - delete(id)删除记录
   - update(data,id)修改记录
   - get()、all()过滤记录
-  - where()过滤条件方法
+  - where_and()过滤条件方法
   - columns()设置查找哪些列的方法
   - orderby()设置排序的方法
   - count()查找数据总条数的方法
@@ -152,30 +152,65 @@ local Home = Base:extend()
 - nginx.conf添加类似如下代码
 
   ```shell
-  worker_processes  1;
-  error_log logs/error.log;
-  events {
-      worker_connections 1024;
-  }
-  http {
-      lua_package_path 'E:/openresty/jframe/?.lua;;';
-      lua_shared_dict localStorage 100m;
-      server {
-          charset utf-8;        
-          listen 8080;
-          
-          location = /favicon.ico {
-            log_not_found off;#关闭日志
-            access_log off;#不记录在access.log
-          }
-  
-          location / {
-              default_type text/html;
-              content_by_lua_file "E:/openresty/jframe/main.lua";
-          }
-      }
-  }
-  ```
+ worker_processes  1;
+#error_log logs/error.log;
+error_log  logs/error.log info;
+events {
+    worker_connections 1024;
+}
+http {
+    resolver 114.114.114.114;
+    lua_package_path 'd:/openresty/jframe/?.lua;;';
+    lua_shared_dict localStorage 100m;
+	#配置缓存服务
+	upstream memcached {
+                server 127.0.0.1:11211;
+        }
+	upstream redis_server{ server 127.0.0.1:6379 weight=1; }
+    server {
+        charset utf-8;        
+        listen 80;
+        lua_code_cache on;
+        location = /favicon.ico {
+          log_not_found off;#关闭日志
+          access_log on;#不记录在access.log
+        }
+		location /outapi {
+		
+		internal;
+		set_by_lua $target 'return ngx.ctx.target_uri';
+		proxy_pass_request_headers off;
+		proxy_pass $target;
+		proxy_set_header Content-Type 'application/json';
+		 
+        }
+        location / {
+            default_type text/html;
+            content_by_lua_file "d:/openresty/jframe/main.lua";
+		add_header Access-Control-Allow-Origin *;
+		add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS,PUT';
+		add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+		if ($request_method = 'OPTIONS') {
+		return 204;
+    }
+        }
+    }
+     server {
+        charset utf-8;        
+        listen 38083;
+        lua_code_cache on;
+        location = /favicon.ico {
+          log_not_found off;#关闭日志
+          access_log on;#不记录在access.log
+        }
+       
+        location / {
+            default_type text/html;
+            content_by_lua_file "d:/openresty/jframe/main.lua";
+        }
+    }
+	
+}
 
 - 添加控制器
 
@@ -240,11 +275,7 @@ local Home = Base:extend()
     local affect_rows = userModel:delete(2)
     ```
 
-  - 根据where条件删除
-
-    ```lua
-    local affect_rows = userModel:where("name","=",3):delete()
-    ```
+   
 
 - 修改
 
