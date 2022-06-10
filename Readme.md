@@ -258,6 +258,7 @@ http {
   ```
 
 ### model封装的快捷方法说明
+model后面需要增加  :newsql()
 
 - 添加
 
@@ -266,7 +267,7 @@ http {
       name = "test",
       pwd = 123
   }
-  local insertId = userModel:create(data)
+  local insertId = userModel:newsql():create(data)
   ```
 
 - 删除
@@ -274,7 +275,7 @@ http {
   - 根据主键删除
 
     ```lua
-    local affect_rows = userModel:delete(2)
+    local affect_rows = userModel:newsql():delete(2)
     ```
 
    
@@ -284,19 +285,19 @@ http {
   - 根据主键修改
 
     ```lua
-    local affect_rows = userModel:update(data,2)
+    local affect_rows = userModel:newsql():update(data,2)
     
     local data = {
         suid = "1", -- data里面存在主键，根据主键更新
         name = "hello 我的测试",
     }
-    local affect_rows = userModel:update(data)
+    local affect_rows = userModel:newsql():update(data)
     ```
 
   - 根据where条件修改
 
     ```lua
-    local affect_rows = userModel:where("name","=",3):update(data)
+    local affect_rows = userModel:newsql():where("name","=",3):update(data)
     ```
 
 - 查找
@@ -304,18 +305,18 @@ http {
   - 查找一条记录
 
     ```lua
-    local info = userModel:where("name","=",3):get() --根据where条件查找
-    local info = userModel:get(1) --根据主键查找
-    local info = userModel:columns('suid,name'):get(1) --查找指定字段,查找字段是字符串
-    local info = userModel:columns({'suid','name'}):get(1) --查找指定字段,查找字段是table
+    local info = userModel:newsql():where("name","=",3):get() --根据where条件查找
+    local info = userModel:newsql():get(1) --根据主键查找
+    local info = userModel:newsql():columns('suid,name'):get(1) --查找指定字段,查找字段是字符串
+    local info = userModel:newsql():columns({'suid','name'}):get(1) --查找指定字段,查找字段是table
     ```
 
   - 查找多条记录
 
     ```lua
-    local list = userModel:where("name","=",3):all() --根据where条件查找
-    local list = userModel:columns('suid,name'):all() --查找指定字段,查找字段是字符串
-    local list = userModel:columns({'suid','name'}):all() --查找指定字段,查找字段是table
+    local list = userModel:newsql():where("name","=",3):all() --根据where条件查找
+    local list = userModel:newsql():columns('suid,name'):all() --查找指定字段,查找字段是字符串
+    local list = userModel:newsql():columns({'suid','name'}):all() --查找指定字段,查找字段是table
     ```
 
 - 其它方法说明
@@ -323,33 +324,33 @@ http {
   - 查找数据条数
 
     ```lua
-    local count = userModel:where("name","=","json"):count()
+    local count = userModel:newsql():where("name","=","json"):count()
     ```
 
   - 排序
 
     ```lua
-    local list = userModel:where("name","=",3):orderby("id"):all()
+    local list = userModel:newsql():where("name","=",3):orderby("id"):all()
     
-    local list = userModel:where("name","=",3):orderby("name","asc"):orderby("id","desc"):all() --多个排序
+    local list = userModel:newsql():where("name","=",3):orderby("name","asc"):orderby("id","desc"):all() --多个排序
     ```
 
   - 查找指定字段(不使用指定字段，则是查找所有字段)
 
     ```lua
-    local list = userModel:columns('suid,name'):all() --columns里面可以是字符串，也可以是table结构
+    local list = userModel:newsql():columns('suid,name'):all() --columns里面可以是字符串，也可以是table结构
     ```
 
   - 根据where条件查找
 
     ```lua
-    local list = userModel:columns('suid,rname'):where("suid","<","30"):orderby("suid"):all()
+    local list = userModel:newsql():columns('suid,rname'):where("suid","<","30"):orderby("suid"):all()
     
-    local list = userModel:columns('suid,rname'):where("suid","<","30"):where("rname","like","test%"):orderby("suid"):all() -- 可以多个where
+    local list = userModel:newsql():columns('suid,rname'):where("suid","<","30"):where("rname","like","test%"):orderby("suid"):all() -- 可以多个where
     
     -多个where组合在一个table
     local t={{column="id",operator="=",value="1"},{column="id",operator="=",value="1"},{column="id",operator="=",value="1"}}
-    if t.where then list = l_model:columns(t.columns or 'id'):where_and(t.where or {{column="id",operator="=",value=""}}):orderby((t.orderby or 'id'),(t.sort or "desc")):all(t.limit or 0) end -- 可以多个where
+    if t.where then list = l_model:newsql():columns(t.columns or 'id'):where_and(t.where or {{column="id",operator="=",value=""}}):orderby((t.orderby or 'id'),(t.sort or "desc")):all(t.limit or 0) end -- 可以多个where
 
 
     ```
