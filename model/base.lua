@@ -27,6 +27,11 @@ function Base:new(table,pk,soft_delete_column)
   return self
 end
 
+function Base:newsql()
+	self.query_sql = nil
+	return self
+end
+
 function Base:query(sql,params)
 	if not sql then
 		return ngx.log(ngx.ERR,'query() function need sql to query')
