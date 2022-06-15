@@ -1,4 +1,4 @@
-用openresty与nodemcu通过lua一站式开发搭建的一个一体的物联网框架
+用openresty与nodemcu通过lua一站式开发搭建的一个一体的物联网框架(逐步更新）
 
 ### 目录结构
 
@@ -140,7 +140,8 @@ local Home = Base:extend()
   - delete(id)删除记录
   - update(data,id)修改记录
   - get()、all()过滤记录
-  - where_and()过滤条件方法
+  - where_and()与过滤条件方法
+    - where_or()或过滤条件方法
   - columns()设置查找哪些列的方法
   - orderby()设置排序的方法
   - count()查找数据总条数的方法
@@ -258,7 +259,7 @@ http {
   ```
 
 ### model封装的快捷方法说明
-model后面需要增加  :newsql()
+model后面需要增加  :newsql() 防止开启缓存导致的错误
 
 - 添加
 
@@ -305,8 +306,7 @@ model后面需要增加  :newsql()
   - 查找一条记录
 
     ```lua
-    local info = userModel:newsql():where("name","=",3):get() --根据where条件查找
-    local info = userModel:newsql():get(1) --根据主键查找
+     local info = userModel:newsql():get(1) --根据主键查找
     local info = userModel:newsql():columns('suid,name'):get(1) --查找指定字段,查找字段是字符串
     local info = userModel:newsql():columns({'suid','name'}):get(1) --查找指定字段,查找字段是table
     ```
@@ -314,8 +314,7 @@ model后面需要增加  :newsql()
   - 查找多条记录
 
     ```lua
-    local list = userModel:newsql():where("name","=",3):all() --根据where条件查找
-    local list = userModel:newsql():columns('suid,name'):all() --查找指定字段,查找字段是字符串
+     local list = userModel:newsql():columns('suid,name'):all() --查找指定字段,查找字段是字符串
     local list = userModel:newsql():columns({'suid','name'}):all() --查找指定字段,查找字段是table
     ```
 
