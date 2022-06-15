@@ -5,7 +5,7 @@ local dbConfig = require "config.database"
 local db = DB:new(dbConfig)
 local ngx = ngx
 local Base = Object:extend()
-
+ 
 local function transform_value(value)
 	if value == ngx.null then
 		value = ''
@@ -29,8 +29,11 @@ end
 
 function Base:newsql()
 	self.query_sql = nil
+	self.has_order_by = false
+	self.fields = '*'
 	return self
 end
+
 
 function Base:query(sql,params)
 	if not sql then
@@ -61,10 +64,12 @@ end
 
 function Base:delete(id)
 	id = id or nil
+
 	if not id then
 		-- 拼接需要delete的字段
 		if self.query_sql then
 			local sql = 'delete from '..self.table..' '..self.query_sql
+			if not (string.find(sql,"where") and string.find(sql,"="))   then print("update need where params") end
 			return self:query(sql).affected_rows
 		end
 		ngx.log(ngx.ERR,'delete function need prefix sql')
@@ -93,12 +98,12 @@ function Base:soft_delete(id)
 end
 
 function Base:update(data,id)
-	if not (string.find(self.query_sql,"where") and string.find(self.query_sql,"=")) and  then print("update need where params") end
+	
 	local id = id or nil
 	-- 拼接需要update的字段
 	local str = nil
 	for column,value in pairs(data) do
-		clean_value = transform_value(value)
+		local clean_value = transform_value(value)
 		if not str then
 			str = column..'='..clean_value
 		else
@@ -109,12 +114,14 @@ function Base:update(data,id)
 	if not id then
 		if self.query_sql then
 			local sql = 'update '..self.table..' set '..str..' '..self.query_sql
+			if not (string.find(sql,"where") and string.find(sql,"="))   then print("update need where params") end
 			return self:query(sql).affected_rows
 		end
 		ngx.log(ngx.ERR,'update function cannot called without restriction')
 		ngx.exit(500)
 	else
 		local sql = 'update '..self.table..' set '..str..' where '..self.pk..'='..transform_value(id)
+		if not (string.find(sql,"where") and string.find(sql,"="))   then print("update need where params") end
 		return self:query(sql).affected_rows
 	end
 	return false
@@ -129,8 +136,7 @@ function Base:get(id)
 	end
 	local sql = 'select '..self.fields..' from '..self.table..where..' limit 1'
 	local res = self:query(sql)
-	self.query_sql=""
-	if table.getn(res) > 0 then
+ 	if table.getn(res) > 0 then
 		return res[1]
 	else
 		return false
@@ -148,8 +154,7 @@ function Base:all(limit)
 	end
 	local res = self:query(sql)
 	--修改重置sql
-	self.query_sql=""
-	return res
+ 	return res
 end
 
 -- function Base:where(column,operator,value)
@@ -166,14 +171,29 @@ end
 function Base:where_and(t)
  	local t=t or {{}}
 	--value = transform_value(value)
-		self.query_sql=""
-		for k,v in pairs(t) do
-			if k==1 then self.query_sql = self.query_sql..(v[1] or '').. ' ' .. (v[2] or '') .. ' ' .. (v[3] or '') 
+	self.query_sql=""
+ 		for k,v in pairs(t) do
+			if k==1 then self.query_sql = self.query_sql..(tostring(v[1]) or '').. ' ' .. (tostring(v[2]) or '') .. ' ' .. (tostring('"'..v[3]..'"') or '') 
 			else
-			self.query_sql=self.query_sql..' and '..(v[1] or '').. ' ' .. (v[2] or '') .. ' ' .. (v[3] or '')
+			self.query_sql=self.query_sql..' and '..(tostring(v[1]) or '').. ' ' .. (tostring(v[2]) or '') .. ' ' .. (tostring('"'..v[3]..'"') or '') 
 			end
 		end
-		self.query_sql = ' where '..self.query_sql
+		self.query_sql = ' where '..tostring(self.query_sql)
+		--self.query_sql = ' where '..column.. ' ' .. operator .. ' ' .. value
+		return self
+end
+
+function Base:where_or(t)
+ 	local t=t or {{}}
+	--value = transform_value(value)
+	self.query_sql=""
+ 		for k,v in pairs(t) do
+			if k==1 then self.query_sql = self.query_sql..(tostring(v[1]) or '').. ' ' .. (tostring(v[2]) or '') .. ' ' .. (tostring('"'..v[3]..'"') or '') 
+			else
+			self.query_sql=self.query_sql..' or '..(tostring(v[1]) or '').. ' ' .. (tostring(v[2]) or '') .. ' ' .. (tostring('"'..v[3]..'"') or '') 
+			end
+		end
+		self.query_sql = ' where '..tostring(self.query_sql)
 		--self.query_sql = ' where '..column.. ' ' .. operator .. ' ' .. value
 		return self
 end
@@ -202,8 +222,7 @@ function Base:count()
 	end
 	local res = self:query(sql)
  
-	self.query_sql=""
-	if table.getn(res) > 0 then
+ 	if table.getn(res) > 0 then
 	 
 		return tonumber(res[1]['count(*)'])
 	else
