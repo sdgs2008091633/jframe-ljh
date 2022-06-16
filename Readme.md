@@ -323,15 +323,15 @@ model后面需要增加  :newsql() 防止开启缓存导致的错误
   - 查找数据条数
 
     ```lua
-    local count = userModel:newsql():where("name","=","json"):count()
+    local count = userModel:newsql():where_and({{"name","=","json"}}):count()
     ```
 
   - 排序
 
     ```lua
-    local list = userModel:newsql():where("name","=",3):orderby("id"):all()
+    local list = userModel:newsql():where_and({{"name","=",3}}):orderby("id"):all()
     
-    local list = userModel:newsql():where("name","=",3):orderby("name","asc"):orderby("id","desc"):all() --多个排序
+    local list = userModel:newsql():where_and({{"name","=",3}}):orderby("name","asc"):orderby("id","desc"):all() --多个排序
     ```
 
   - 查找指定字段(不使用指定字段，则是查找所有字段)
@@ -343,9 +343,9 @@ model后面需要增加  :newsql() 防止开启缓存导致的错误
   - 根据where条件查找
 
     ```lua
-    local list = userModel:newsql():columns('suid,rname'):where("suid","<","30"):orderby("suid"):all()
+    local list = userModel:newsql():columns('suid,rname'):where({{"suid","<","30"}}):orderby("suid"):all()
     
-    local list = userModel:newsql():columns('suid,rname'):where("suid","<","30"):where("rname","like","test%"):orderby("suid"):all() -- 可以多个where
+    local list = userModel:newsql():columns('suid,rname'):where({{"suid","<","30"}}):where("rname","like","test%"):orderby("suid"):all() -- 可以多个where
     
     -多个where组合在一个table
     local t={{column="id",operator="=",value="1"},{column="id",operator="=",value="1"},{column="id",operator="=",value="1"}}
