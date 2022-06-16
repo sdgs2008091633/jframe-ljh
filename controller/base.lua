@@ -29,16 +29,17 @@ function Base:new(controller, action)
   return self
 end
 
-function Base:json(data, code, empty_table_as_object)
+function Base:json(data, message,code,  empty_table_as_object)
+	if not data then return end
     local resp = {
-        code = code or 0,
-        data = data,
-		message = ''
+        code = code or 201,
+        data = data or "",
+		message = message or 'success'
     }
     self.response:json(resp,empty_table_as_object)
 end
 
-function Base:error(code,message, empty_table_as_object)
+function Base:error(message,code, empty_table_as_object)
     local resp = {
         code = code or 0,
         data = {},
